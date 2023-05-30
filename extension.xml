@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root release="3.3.3" version="3.3.3">
+	<properties>
+		<name>Feature: Points of Interest</name>
+		<version>1.0.0</version>
+		<author>Saagael</author>
+		<description>Adds a way to decorate your maps with customizeable, clickable map icons</description>
+	</properties>
+	<base>
+		<icon name="points_of_interest" file="points_of_interest.png" />
+
+		<includefile source="campaign/record_image.xml" />
+		<script name="POI" file="scripts/points_of_interest.lua" />
+
+		<!-- STRINGS -->
+		<string name="poi_error_openotherlinkedtokenwithoutaccess">[ERROR] Unable to open linked point of interest, because your user does not have access.</string>
+
+		<string name="tooltip_open_poi">Open the Points of Interest panel.</string>
+		<string name="tooltip_close_poi">Close the Points of Interest panel.</string>
+		<string name="poi_tooltip_showpin">Show pin</string>
+		<string name="poi_tooltip_hidepin">Hide pin</string>
+
+		<string name="header_poi">Points of Interest</string>
+
+		<string name="list_empty_poi">Drop a record here to create a point of interest.</string>
+	</base>
+	<announcement text="Points of Interest v1.0.0 by Saagael." icon="points_of_interest" font="emotefont" />
+</root>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="imagewindow" merge="join">
+		<script file="campaign/scripts/imagewindow.lua" />
+		<sheetdata>
+			<poi_window insertbefore="imagedata" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="imagewindow_header" merge="join">
+		<sheetdata>
+			<button_points_of_interest name="button_poi" insertbefore="nonid_name" />
+		</sheetdata>
+	</windowclass>
+
+	<template name="button_points_of_interest">
+		<buttoncontrol>
+			<anchored to="rightanchor" width="30" height="30">
+				<top offset="-5" />
+				<right anchor="left" relation="relative" />
+			</anchored>
+			<state icon="image_pin_public" tooltipres="tooltip_open_poi" />
+			<state icon="image_pin" tooltipres="tooltip_close_poi" />
+			<script>
+				function onValueChanged()
+					if window.parentcontrol and window.parentcontrol.window.onPoiChanged then
+						window.parentcontrol.window.onPoiChanged(getValue());
+					elseif window.onPoiChanged then
+						window.onPoiChanged(getValue());
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<!-- Points of Interest Subwindow -->
+	<template name="poi_window">
+		<subwindow name="poi">
+			<bounds>-315,57,-27,-29</bounds>
+			<class>points_of_interest</class>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+
+	<windowclass name="points_of_interest">
+		<margins control="3,3,3,3" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<header_column name="poi_header">
+				<static textres="header_poi" />
+			</header_column>
+
+			<button_iedit name="list_iedit">
+				<anchored to="poi_header">
+					<top />
+					<right anchor="right" offset="0" />
+				</anchored>
+				<gmvisibleonly />
+				<edittarget>list_poi</edittarget>
+			</button_iedit>
+
+			<windowlist name="list_poi">
+				<script file="campaign/scripts/list_points_of_interest.lua" />
+				<anchored>
+					<left />
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<right />
+					<bottom />
+				</anchored>
+				<empty font="list-empty" textres="list_empty_poi" />
+				<allowdelete />
+				<class>point_of_interest_entry</class>
+				<sortby><control>name</control></sortby>
+				<datasource>.poi</datasource>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="point_of_interest_entry">
+		<script file="campaign/scripts/point_of_interest.lua" />
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<hs name="tokenrefid" />
+			<hs name="tokenrefnode" />
+
+			<genericcontrol name="active_spacer_top">
+				<anchored position="insidetopleft" width="0" height="5" />
+				<invisible />
+			</genericcontrol>
+			
+			<token_poi name="token" />
+			
+			<buttonfield name="isidentified">
+				<anchored to="token" position="righthigh" offset="-2,-4" width="12" height="12" />
+				<frame name="tempmodmini" offset="3,1,4,3" />
+				<state icon="record_unidentified" tooltipres="tooltip_nonid" />
+				<state icon="record_identified" tooltipres="tooltip_id" />
+				<invisible />
+				<gmeditonly />
+				<script>
+					function onValueChanged()
+						if window.onIDChanged then
+							window.onIDChanged();
+						end
+					end
+				</script>
+			</buttonfield>
+			
+			<genericcontrol name="rightanchor">
+				<anchored width="0" height="0">
+					<top parent="active_spacer_top" anchor="bottom" offset="10" />
+					<right offset="-7" />
+				</anchored>
+				<invisible />
+			</genericcontrol>
+			
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top offset="10" />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+			</button_idelete>
+			<linkfield name="link">
+				<anchored to="rightanchor" width="20" height="20">
+					<top offset="10" />
+					<right anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<class>encounter</class>
+				<selfonempty />
+				<readonly />
+				<script>
+					function onValueChanged()
+						window.onLinkChanged();
+					end
+				</script>
+			</linkfield>
+
+			<string_poi_entry_name name="name" />
+			<string_poi_entry_name_nonid name="nonid_name" />
+
+			<buttonfield name="tokenvis">
+				<anchored to="token" position="rightlow" offset="-2,-4" width="12" height="12" />
+				<frame name="tempmodmini" offset="3,1,4,3" />
+				<state icon="visibilityoff" tooltipres="poi_tooltip_showpin" />
+				<state icon="visibilityon" tooltipres="poi_tooltip_hidepin" />
+				<script>
+					function onValueChanged()
+						window.onVisibilityChanged();
+					end
+				</script>
+			</buttonfield>
+		</sheetdata>
+	</windowclass>
+
+	<template name="token_poi">
+		<tokenfield>
+			<anchored width="40" height="40">
+				<top parent="active_spacer_top" anchor="bottom" offset="7" />
+				<left offset="5" />
+			</anchored>
+			<empty>token_empty</empty>
+			<script file="campaign/scripts/poi_token.lua" />
+		</tokenfield>
+	</template>
+	<template name="string_poi">
+		<stringu>
+			<script file="common/scripts/string_crosslink.lua" />
+		</stringu>
+	</template>
+	<template name="string_poi_entry_name">
+		<string_ct>
+			<anchored height="20">
+				<top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="20" />
+				<left parent="token" anchor="right" offset="12" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<tabtarget next="initresult" />
+			<script file="ct/scripts/ct_name.lua" />
+		</string_ct>
+	</template>
+	<template name="string_poi_entry_name_nonid">
+		<string_poi_entry_name>
+			<empty textres="library_recordtype_empty_nonid_encounter" />
+			<invisible />
+		</string_poi_entry_name>
+	</template>
+</root>
