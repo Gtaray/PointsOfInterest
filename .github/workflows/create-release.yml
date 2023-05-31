@@ -22,11 +22,11 @@ jobs:
     - name: Archive Release
       uses: thedoctor0/zip-release@master
       with:
-        filename: 'NaturalSelection.ext'
+        filename: 'PointsOfInterest.ext'
         exclusions: '*.git* /*node_modules/* .editorconfig body.md'
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "NaturalSelection.ext"
+        artifacts: "PointsOfInterest.ext"
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
