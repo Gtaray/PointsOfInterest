@@ -27,6 +27,7 @@
 			</anchored>
 			<state icon="image_pin_public" tooltipres="tooltip_open_poi" />
 			<state icon="image_pin" tooltipres="tooltip_close_poi" />
+			<gmvisibleonly />
 			<script>
 				function onValueChanged()
 					if window.parentcontrol and window.parentcontrol.window.onPoiChanged then

@@ -5,6 +5,10 @@ function onInit()
 	TokenManager.onDoubleClick = POI.onDoubleClick;
 
 	Token.addEventHandler("onDelete", POI.onTokenDelete);
+	
+	DB.addHandler("image.*.poi.*.name", "onUpdate", onPoiNameUpdated)
+	DB.addHandler("image.*.poi.*.nonid_name", "onUpdate", onPoiNameUpdated)
+	DB.addHandler("image.*.poi.*.isidentified", "onUpdate", onPoiNameUpdated)
 end
 
 function onTokenDelete(tokenMap)
@@ -57,6 +61,14 @@ function onDoubleClick(tokenMap, vImage)
 	end
 end
 
+function onPoiNameUpdated(nodeName)
+	local nodePoi = DB.getParent(nodeName);
+	local token = POI.getTokenFromPoi(nodePoi);
+	if token then
+		POI.updateTooltip(token, nodePoi);
+	end
+end
+
 function replacePoiToken(nodePoi, newTokenInstance)
 	local oldTokenInstance = POI.getTokenFromPoi(nodePoi);
 	if oldTokenInstance and oldTokenInstance ~= newTokenInstance then
@@ -73,9 +85,37 @@ function replacePoiToken(nodePoi, newTokenInstance)
 
 		oldTokenInstance.delete();
 	end
-
+	
+	if not newTokenInstance then
+		return;
+	end
+	
 	TokenManager.linkToken(nodePoi, newTokenInstance);
 	POI.updateVisibility(nodePoi);
+	POI.updateTooltip(newTokenInstance, nodePoi);
+
+	-- Disallow players from moving PoI tokens
+	newTokenInstance.setPublicEdit(false);
+end
+
+function updateTooltip(token, node)
+	if not token then
+		return;
+	end
+	if not node then
+		return;
+	end
+
+	local sClass = DB.getValue(node, "link");
+	local bID = LibraryData.getIDState(sClass, node, true);
+
+	local sName = "";
+	if bID then
+		sName = DB.getValue(node, "name", "");
+	else
+		sName = DB.getValue(node, "nonid_name", "");
+	end
+	token.setName(sName);
 end
 
 function getPoiFromToken(token)

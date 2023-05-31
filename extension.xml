@@ -3,7 +3,7 @@
 <root release="3.3.3" version="3.3.3">
 	<properties>
 		<name>Feature: Points of Interest</name>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<author>Saagael</author>
 		<description>Adds a way to decorate your maps with customizeable, clickable map icons</description>
 	</properties>
@@ -25,5 +25,5 @@
 
 		<string name="list_empty_poi">Drop a record here to create a point of interest.</string>
 	</base>
-	<announcement text="Points of Interest v1.0.0 by Saagael." icon="points_of_interest" font="emotefont" />
+	<announcement text="Points of Interest v1.0.1 by Saagael." icon="points_of_interest" font="emotefont" />
 </root>

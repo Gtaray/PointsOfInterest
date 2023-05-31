@@ -176,6 +176,7 @@ function linkToken()
 	local imageinstance = token.populateFromImageNode(tokenrefnode.getValue(), tokenrefid.getValue());
 	if imageinstance then
 		TokenManager.linkToken(getDatabaseNode(), imageinstance);
+		imageinstance.setPublicEdit(false);
 	end
 end
 
@@ -189,8 +190,10 @@ function linkFields()
 	if self.isValidSourceLink() then
 		local node = link.getTargetDatabaseNode();
 
-		name.setLink(DB.createChild(node, "name", "string"), true);
-		nonid_name.setLink(DB.createChild(node, "nonid_name", "string"), true);
+		if node then
+			name.setLink(DB.createChild(node, "name", "string"), true);
+			nonid_name.setLink(DB.createChild(node, "nonid_name", "string"), true);
+		end
 
 		self.startWatchingSourceIDState();
 	end
