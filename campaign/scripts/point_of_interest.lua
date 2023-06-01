@@ -147,7 +147,7 @@ function setIDStateToMatchSource()
 	
 	-- Pull from the source and set this
 	local linknode = link.getTargetDatabaseNode();
-	local newState = DB.getValue(linknode, "isidentified", 0);
+	local newState = DB.getValue(linknode, "isidentified", 1);
 	local curState = isidentified.getValue();
 	if curState ~= newState then
 		isidentified.setValue(newState)
