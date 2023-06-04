@@ -13,15 +13,45 @@
 		</sheetdata>
 	</windowclass>
 
+	<!-- This is used when sending an image to fullscreen -->
+	<windowclass name="imagepanelwindow" merge="join">
+		<script file="campaign/scripts/imagewindow.lua" />
+		<sheetdata>
+			<poi_window insertbefore="imagedata" />
+		</sheetdata>
+	</windowclass>
+
 	<windowclass name="imagewindow_header" merge="join">
 		<sheetdata>
 			<button_points_of_interest name="button_poi" insertbefore="nonid_name" />
 		</sheetdata>
 	</windowclass>
 
+	<windowclass name="imagewindow_toolbar" merge="join">
+		<script>
+			function onInit()
+				super.onInit();
+
+				if Session.IsHost then
+					local bShowLockButton = (parentcontrol.window.getClass() ~= "imagewindow");
+					button_poi.setVisible(bShowLockButton);
+				end
+			end
+		</script>
+		<sheetdata>
+			<image_toolbar_separator name="h6" />
+			<button_points_of_interest name="button_poi">
+				<anchored to="toolbar_anchor" width="30" height="30">
+					<top offset="2" />
+					<right anchor="left" relation="relative" />
+				</anchored>
+			</button_points_of_interest>
+		</sheetdata>
+	</windowclass>
+
 	<template name="button_points_of_interest">
 		<buttoncontrol>
-			<anchored to="rightanchor" width="30" height="30">
+			<anchored to="rightanchor" width="34" height="34">
 				<top offset="-5" />
 				<right anchor="left" relation="relative" />
 			</anchored>
