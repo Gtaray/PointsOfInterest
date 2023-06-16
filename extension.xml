@@ -3,7 +3,7 @@
 <root release="3.3.3" version="3.3.3">
 	<properties>
 		<name>Feature: Points of Interest</name>
-		<version>1.0.1</version>
+		<version>1.0.3</version>
 		<author>Saagael</author>
 		<description>Adds a way to decorate your maps with customizeable, clickable map icons</description>
 	</properties>
