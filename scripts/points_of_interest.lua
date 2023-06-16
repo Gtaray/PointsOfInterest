@@ -29,8 +29,7 @@ function onDoubleClick(tokenMap, vImage)
 	-- if the token clicked is not a point of interest
 	-- then we treat it like any other token
 	if not poinode then
-		fOnDoubleClick();
-		return true;
+		return fOnDoubleClick(tokenMap, vImage);
 	end
 	
 	if Session.IsHost then
